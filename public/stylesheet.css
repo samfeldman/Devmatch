@@ -39,3 +39,29 @@ html{
 	left: 300px;
 }
 /*end of index css*/
+.navbar{
+	background: #F47A13;
+	height: 100px;
+	border-radius: 30px;
+}
+.logo{
+	height: 100px;
+	float: left;
+}
+ul{
+	list-style: none;
+	margin:0px;
+}
+li{
+	background: #F0E5C7;
+	border-radius: 20px;
+	margin-top: 22px;
+	float: right;
+	padding: 5px;
+	margin-right: 20px;
+}
+a{
+	color: black;
+	text-decoration: none;
+	font-size: 40px;
+}
