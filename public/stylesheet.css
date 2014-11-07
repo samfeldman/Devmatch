@@ -1,0 +1,29 @@
+html{
+	background: #490A43;
+	padding: 0px;
+}
+.maincontainer{
+	margin: 0 auto;
+	width: 900px;
+	height: 900px;
+}
+.mainpage{
+	position: relative;
+	top: 50px;
+}
+.sign-up{
+	height: 500px;
+	width: 400px;
+	background: #F47A13;
+	border-radius: 30px;
+	display: inline-block;
+	margin: 24px;
+}
+.sign-in{
+	height: 500px;
+	width:400px;
+	background: #F47A13;
+	border-radius: 30px;
+	display: inline-block;
+	margin: 24px;
+}
