@@ -7,9 +7,7 @@ html{
 	width: 900px;
 	height: 900px;
 }
-#mainpage{
-	padding-top: 50px;
-}
+/*beginning of index css*/
 .form-bubbles{
 	height: 500px;
 	width: 400px;
@@ -34,3 +32,10 @@ html{
 	color: #C2361B;
 	font-size: 15px;
 }
+#mainlogo{
+	position: relative;
+	height: 120px;
+	width: 340px;
+	left: 300px;
+}
+/*end of index css*/
