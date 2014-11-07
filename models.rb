@@ -4,11 +4,11 @@ class User < ActiveRecord::Base
 
 end
 
-class Post <ActiveRecord::Base
+class Post < ActiveRecord::Base
 	belongs_to :user
 end
 
-class Follow <ActiveRecord::Base
+class Follow < ActiveRecord::Base
 	
 end
 

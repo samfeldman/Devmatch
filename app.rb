@@ -18,7 +18,8 @@ get '/profile' do
 	
 	# @currenttime = Time.new
 	# @age = @currenttime.year - 
-	erb :profile
+	# @posts = Post.where(:user_id = ).all
+	# erb :profile
 end
 
 	
@@ -28,15 +29,18 @@ end
 
 #feed page
 get '/feed' do
-	@posts = Post.all
 	erb :feed
 end
+
 post '/postnew' do
-	if params[:text] = "" #feed textbox is empty
+	p params
+	p session
+	if params[:text] = nil #feed textbox is empty
 		flash[:emptypost] = "Please enter a post." #flash
 	else 
 		@post = Post.new(text: params[:text], user_id: session[:user_id])
 		@post.save
+		flash[:savedpost] = "Post was created"
 	end
 	redirect '/feed'
 end

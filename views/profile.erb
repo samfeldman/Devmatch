@@ -8,22 +8,38 @@
 		<div class="maincontainer">
 			<div class="leftpage">
 				<img src="/dummy.jpg" alt="dummy profile image">
-				<div class="editbutton"><%= "Edit" %></div>
-				<div class="leftline1">
-					<h1><%= @user.fname %></h1>
-					<h1><%= @user.lname %></h1>
-				</div>
-				<div class="leftline2">
-					<h1><%= @user.sex %></h1>
-					<h1><%= @user.birthday %></h1>
-					<h1><%= @user.location %></h1>
-				</div>
-				<div class="leftline3">
-					<h1><%= @user.fname %></h1>
-					<h1><%= @user.lname %></h1>
-				</div>
+				<% if @user.id == sessions[:user_id] %>
+					<a href class="editbutton"><%= "Edit" %></a>
+					<div class="leftline1">
+						<h1><%= @user.fname %></h1>
+						<h1><%= @user.lname %></h1>
+					</div>
+					<div class="leftline2">
+						<h2><%= @user.sex %></h2>
+						<h2><%= @user.birthday %></h2>
+						<h2><%= @user.location %></h2>
+					</div>
+					<div class="leftline3">
+						<h2><%= @user.company%></h2>
+						<h2><%= @user.specialty %></h2>
+					</div>
+					<div class="aboutme">
+						<h1>About Me<h1>
+						<h2><%= @user.aboutme %><h2>
+					</div>
+				<% end %>
 			</div>
+
 			<div class="rightpage">
+			<% if @posts %>
+			<ul> 
+				<% @posts.each do |post| %>
+				<li><%= "#{ post.text }" %></li>
+				<li><%= "#{ post.user_id }" %></li>
+				<li><%= "#{ post.text }" %></li>
+				<% end %>
+			</ul>
+
 			</div>
 		</div>
 	</body>

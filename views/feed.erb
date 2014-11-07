@@ -1,12 +1,39 @@
-<form action="/postnew" method="POST">
-<textarea id="postbox" name="postbox" placeholder="post something here!"></textarea>
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DevMatch</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="./stylesheet.css">
+</head>
+	<body>
+		<div class="maincontainer">
+			<% if flash[:emptypost] %>
+				<h1 class="flashnotice"><%= flash[:emptypost] %></h1>  
+			<% end %>
+			<% if flash[:savedpost] %>
+				<h1 class="flashnotice"><%= flash[:savedpost] %></h1>  
+			<% end %>
+			<form action="/postnew" method="POST">
+				<textarea id="textarea" name="text" placeholder="post something here!"></textarea>
+				<input type="submit" name="postbutton" value="post">
+			</form>
+			<% if @posts %>
+				<ul> 
+				<% @posts.each do |post| %>
+					<li>
+						<ul> 
+							<li><%= "#{ post.text }" %></li>
+							<li><%= "USERNAME" %></li>
+							<li><%= "#{ post.created_at}" %></li>
+						<ul>
+					</li>
+				<% end %>
+				</ul>
+			<% end %>
+		</div>
+	</body>
+</html>
 
-<% if @posts %>
-<ul> 
-	<% @posts.each do |post| %>
-	<li><%= "#{ post.text }" %></li>
-	<li><%= "#{ post.user_id }" %></li>
-	<li><%= "#{ post.text }" %></li>
-	<% end %>
-</ul>
+
+
+

@@ -11,16 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141105214441) do
+ActiveRecord::Schema.define(version: 20141105214501) do
 
   create_table "follows", force: true do |t|
     t.integer "follower_id"
     t.integer "followee_id"
   end
 
+  create_table "links", force: true do |t|
+    t.integer "user_id"
+    t.string  "link1"
+    t.string  "link3"
+    t.string  "link4"
+  end
+
   create_table "posts", force: true do |t|
     t.integer  "user_id"
-    t.datetime "posttime"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "text"
   end
 
