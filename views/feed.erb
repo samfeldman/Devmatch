@@ -5,6 +5,8 @@
 <% if @posts %>
 <ul> 
 	<% @posts.each do |post| %>
-	<li><%= "#{@post.text}" %></li>
+	<li><%= "#{ post.text }" %></li>
+	<li><%= "#{ post.user_id }" %></li>
+	<li><%= "#{ post.text }" %></li>
 	<% end %>
 </ul>

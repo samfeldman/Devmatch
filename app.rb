@@ -5,7 +5,7 @@ require 'sinatra/flash'
 set :database, 'sqlite3:devmatchbase.sqlite3'
 enable :sessions
 
-post '/logout' do
+get '/logout' do
 	session[:user_id] = nil
 	redirect '/'
 end
@@ -16,8 +16,8 @@ end
 
 get '/profile' do
 	
-	@currenttime = Time.new
-	
+	# @currenttime = Time.new
+	# @age = @currenttime.year - 
 	erb :profile
 end
 
@@ -43,6 +43,20 @@ end
 
 
 #signin/up
+post '/signup' do
+	@user = User.where(email: params[:email]).first #define the @user as matching a previously made User
+	if @user #if the @user exists
+		flash[:usedemail] = "Please select a different email." #flash EMAIL HAS BEEN USED ALREADY
+	elsif params[:password] != params[:confirmpassword] #if the password and confirm password don't match
+		flash[:diffpassword] = "Your passwords to not match; please re-enter." #flash THEY DONT MATCH YOU TERRIBLE HUMAN YOU CANT TYPE
+	else #if the @user doesn't match a User with that email, create a new User
+		@user = User.new(fname: params[:fname], lname: params[:lname], email: params[:email], password: params[:password])
+		@user.save
+		session[:user_id] = @user.id #add session
+		redirect '/profile'
+	end
+	redirect '/'
+end
 
 post '/signin' do
 	@user = User.where(email: params[:email]).first
@@ -54,18 +68,7 @@ post '/signin' do
 	end
 end
 
-post '/signup' do
-	@user = User.where(email: params[:email]).first#define the @user as matching a previously made User
-	if @user #if the @user exists
-		flash[:usedemail] = "Please select a different email." #flash EMAIL HAS BEEN USED ALREADY
-	elsif params[:password] !== params[:confirmpassword] #if the password and confirm password don't match
-		flash[:diffpassword] = "Your passwords to not match; please re-enter." #flash THEY DONT MATCH YOU TERRIBLE HUMAN YOU CANT TYPE
-	else #if the @user doesn't match a User with that email, create a new User
-		@user = User.new(fname: params[:fname], lname: params[:lname], email: params[:email], password: params[:password])
-		@user.save
-	end
-	redirect '/profile'
-end
+
 
 #settings page
 get '/settings' do

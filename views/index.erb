@@ -14,25 +14,25 @@
 				<form action="/signin" method="POST">
 					<input type="email" name="email" placeholder="email">
 					<input type="password" name="password" placeholder="password">
-					<input type="submit" name="signin" value="signin">
-				<form>
+					<input type="submit" name="signin" value="Sign in!">
+				</form>
+			</div>
+			
+			<div class="sign-up">
 				<% if flash[:usedemail] %>
 					<h1 class="flashnotice"><%= flash[:usedemail] %></h1>  
 				<% end %>
 				<% if flash[:diffpassword] %>
 					<h1 class="flashnotice"><%= flash[:diffpassword] %></h1>  
 				<% end %>
-			</div>
-			
-			<div class="sign-up">
-				<form action="/signup" method="GET">
+				<form action="/signup" method="POST">
 					<input type="text" name="fname" placeholder="first name">
 					<input type="text" name="lname" placeholder="last name">
 					<input type="email" name="email" placeholder="email">
 					<input type="password" name="password" placeholder="password">
-					<input type="password" name="confirm_password" placeholder="confirm password">
-					<input type="submit" name="signup" value="signup">
-				<form>
+					<input type="password" name="confirmpassword" placeholder="confirm password">
+					<input type="submit" name="signup" value="Sign up!">
+				</form>
 			</div>
 		</div>
 	</div>
