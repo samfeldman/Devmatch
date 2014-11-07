@@ -1,0 +1,10 @@
+<form action="/postnew" method="POST">
+<textarea id="postbox" name="postbox" placeholder="post something here!"></textarea>
+</form>
+
+<% if @posts %>
+<ul> 
+	<% @posts.each do |post| %>
+	<li><%= "#{@post.text}" %></li>
+	<% end %>
+</ul>
