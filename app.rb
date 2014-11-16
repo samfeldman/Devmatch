@@ -19,7 +19,7 @@ get '/profile' do
 	# @currenttime = Time.new
 	# @age = @currenttime.year - 
 	# @posts = Post.where(:user_id = ).all
-	# erb :profile
+	erb :profile
 end
 
 	
