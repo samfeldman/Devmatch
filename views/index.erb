@@ -11,6 +11,9 @@
 		<div class="form-bubbles">
 			<div class="main-forms">
 				<h1>Sign In</h1>
+				<% if flash[:nouser] %>
+					<h1 class="flashnotice"><%= flash[:nouser] %></h1>  
+				<% end %>
 				<% if flash[:signinwrong] %>
 					<h1 class="flashnotice"><%= flash[:signinwrong] %></h1>  
 				<% end %>

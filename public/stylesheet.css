@@ -7,7 +7,10 @@ html{
 	width: 900px;
 	height: 900px;
 }
+
+
 /*beginning of index css*/
+
 .form-bubbles{
 	height: 500px;
 	width: 400px;
@@ -39,6 +42,8 @@ html{
 	left: 300px;
 }
 /*end of index css*/
+
+
 .navbar{
 	background: #F47A13;
 	height: 100px;

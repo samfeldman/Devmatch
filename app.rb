@@ -5,32 +5,74 @@ require 'sinatra/flash'
 set :database, 'sqlite3:devmatchbase.sqlite3'
 enable :sessions
 
-get '/logout' do
-	session[:user_id] = nil
-	redirect '/'
-end
+
+
+#GENERAL ROUTES/METHODS
 
 get '/' do
 	erb :index
 end
 
-get '/profile' do
-	
-	# @currenttime = Time.new
-	# @age = @currenttime.year - 
-	# @posts = Post.where(:user_id = ).all
+def current_user
+  if session[:user_id].nil?
+    @current_user = nil
+  else
+    @current_user =  User.find(session[:user_id])
+  end
+  return @current_user
+end
+
+
+
+#MENU BAR
+
+get '/logout' do
+	session[:user_id] = nil
+	redirect '/'
+end
+
+
+
+#PROFILE PAGE
+
+get '/user/:id' do
+	current_user
+	@user = User.find(params[:id])
+	@posts = @user.posts
 	erb :profile
 end
 
-	
+post 'user/:id/edit' do
+	current_user
+	@user = User.find(params[:id])
 
-
-
-
-#feed page
-get '/feed' do
-	erb :feed
+	if @user.password == params[:confirmpassword]
+		@user.update(fname: params[:fname], lname: params[:lname], 
+								sex: params[:sex], birthday: params[:birthday], 
+								location: params[:location], specialty: params[:specialty], 
+								company: params[:company], aboutme: params[:aboutme], 
+								email: params[:email], password: params[:password])
+	end
+	redirect '/user/:id'
 end
+
+get '/user/:id/delete' do
+	@user = User.find(params[:id])
+	if @current_user.id = @user.id
+		render :js => "confirm('Are you sure you want to delete your account?');"
+		if confirm == true
+			@user.destroy
+			redirect '/'
+		end
+	else
+		flash[:user_delete] = "You are not the signed in user and cannot delete this user."
+	end
+	redirect_to(:back)
+end
+
+
+
+#POSTS
 
 post '/postnew' do
 	p params
@@ -45,8 +87,27 @@ post '/postnew' do
 	redirect '/feed'
 end
 
+get '/post/:id/delete' do
+	@post = Post.find(params[:id])
+	if @current_user.id = @post.user_id
+		@post.destroy
+	else
+		flash[:post_delete] = "You do not own this post and cannot delete it."
+	end
+	redirect_to(:back)
+end
 
-#signin/up
+
+
+#FEED PAGE
+
+get '/feed' do
+	erb :feed
+end
+
+
+#SIGNIN/UP
+
 post '/signup' do
 	@user = User.where(email: params[:email]).first #define the @user as matching a previously made User
 	if @user #if the @user exists
@@ -57,26 +118,36 @@ post '/signup' do
 		@user = User.new(fname: params[:fname], lname: params[:lname], email: params[:email], password: params[:password])
 		@user.save
 		session[:user_id] = @user.id #add session
-		redirect '/profile'
+		redirect "/user/#{ @current_user.id }"
 	end
-	redirect '/'
+	redirect "/"
 end
 
 post '/signin' do
+	session[:user_id] = nil
 	@user = User.where(email: params[:email]).first
-	if @user == User.where(password: params[:password]).first #if the user matches an email and password 
-		session[:user_id] = @user.id #add session 
-		redirect '/profile' #go to profile page
-	else 
-		flash[:signinwrong] = "Incorrect email or password. Please re-enter!" #flash
+	if @user 
+		if @user == User.where(password: params[:password]).first #if the user matches an email and password 
+			session[:user_id] = @user.id #add session 
+			current_user
+			redirect "/user/#{ @current_user.id }" #go to profile page
+		else 
+			flash[:signinwrong] = "Incorrect email or password. Please re-enter!" #flash
+		end
+	else
+		flash[:nouser] = "User does not exist. Please re-enter!" #flash
+
 	end
+	redirect "/"
 end
 
 
 
-#settings page
+#SETTINGS PAGE
+
 get '/settings' do
   erb :settings
+
 end
 
 

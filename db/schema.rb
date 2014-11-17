@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141105214501) do
+ActiveRecord::Schema.define(version: 20141116212550) do
 
   create_table "follows", force: true do |t|
     t.integer "follower_id"
@@ -41,7 +41,8 @@ ActiveRecord::Schema.define(version: 20141105214501) do
     t.string   "company"
     t.string   "sex"
     t.datetime "birthday"
-    t.string   "aboutme"
+    t.text     "aboutme",   limit: 255
+    t.string   "specialty"
   end
 
 end
