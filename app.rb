@@ -42,28 +42,33 @@ get '/user/:id' do
 	erb :profile
 end
 
-post 'user/:id/edit' do
+post '/user/:id/edit' do
 	current_user
 	@user = User.find(params[:id])
-
-	if @user.password == params[:confirmpassword]
+	p params
+	p "---------------------------"
+	if params[:password] != params[:confirmpassword]
+		flash[:user_update] = "Passwords do not match."
+		p "not equal"
+	elsif @user.id == @current_user.id
+		p "user updated"
 		@user.update(fname: params[:fname], lname: params[:lname], 
 								sex: params[:sex], birthday: params[:birthday], 
 								location: params[:location], specialty: params[:specialty], 
 								company: params[:company], aboutme: params[:aboutme], 
 								email: params[:email], password: params[:password])
+	else
+		flash[:user_update] = "You do not own this user and cannot alter it."
 	end
-	redirect '/user/:id'
+	redirect "/user/#{ @current_user.id }"
 end
 
 get '/user/:id/delete' do
+	current_user
 	@user = User.find(params[:id])
 	if @current_user.id = @user.id
-		render :js => "confirm('Are you sure you want to delete your account?');"
-		if confirm == true
-			@user.destroy
-			redirect '/'
-		end
+		@user.destroy
+		redirect '/'
 	else
 		flash[:user_delete] = "You are not the signed in user and cannot delete this user."
 	end
@@ -88,6 +93,7 @@ post '/postnew' do
 end
 
 get '/post/:id/delete' do
+	current_user
 	@post = Post.find(params[:id])
 	if @current_user.id = @post.user_id
 		@post.destroy
@@ -118,6 +124,7 @@ post '/signup' do
 		@user = User.new(fname: params[:fname], lname: params[:lname], email: params[:email], password: params[:password])
 		@user.save
 		session[:user_id] = @user.id #add session
+		current_user
 		redirect "/user/#{ @current_user.id }"
 	end
 	redirect "/"
