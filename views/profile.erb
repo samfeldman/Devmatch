@@ -76,20 +76,22 @@
 			</div>
 
 			<div class="rightpage">
+			<% if @user.id != @current_user.id %>
+				<% if @follow %>
+	      			<a href=<%= "/follow/#{ @follow.id }/delete" %>>UnFollow</a>
+	   			<% else %>
+	      			<a href=<%= "/user/#{ @user.id }/follow" %>>Follow</a>
+	    		<% end %>
+	    	<% end %>
 			<% if !@posts.empty? %>
 				<h1>Posts</h1>
-				<% if @follow %>
-      				<a href=<%= "/follow/#{ @follow.id }/delete" %>>UnFollow</a>
-   				<% else %>
-      				<a href=<%= "/user/#{ @user.id }/follow" %>>Follow</a>
-    			<% end %>
 				<ul> 
 					<% @posts.each do |post| %>
 						<li class="post_text">
 							<% if @current_user.id == post.user_id %>
-							<form action="/post/#{ post.id }/edit" method="POST">
+							<form action=<%= "/post/#{ post.id }/edit"%> method="POST">
 							<label for="post">Post</label>
-							<textarea name="post" ><%= post.text %></textarea>
+							<textarea name="text" ><%= post.text %></textarea>
 							<input type="submit" name="edit" value="edit post">
 							</form>
 							<% else %>

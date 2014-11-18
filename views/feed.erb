@@ -14,10 +14,10 @@
 </div>
 
 <div class="postfeed">
-	<% if !@posts.empty? %>
+	<% if !@following_posts.empty? %>
 		<h1>feed</h1>
 			<ul> 
-				<% @posts.each do |post| %>
+				<% @following_posts.each do |post| %>
 					<li class="post_text">
 						<% if @current_user.id == post.user_id %>
 						<% flash[:notpostowner] if flash[:notpostowner] %>
@@ -41,7 +41,7 @@
 				<% end %>
 			</ul>
 	<% else %>
-		<h1>No posts to show! Make some yourself and/or make sure you are following other users.</h1>
+		<h1>No posts to show! Make sure you are following other users.</h1>
 	<% end %>
 </div>
 

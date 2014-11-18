@@ -38,8 +38,8 @@ end
 
 get '/user/:id' do
 	current_user
-	@follow = Follower.where(follower_id: session[:user_id],
-                           leader_id: params[:id]).first
+	@follow = Follow.where(follower_id: session[:user_id],
+                           followee_id: params[:id]).first
 	@user = User.find(params[:id])
 	@posts = @user.posts
 	erb :profile
@@ -78,14 +78,30 @@ end
 
 get '/user/:id/follow' do
 	current_user
-	@follow = Follower.new(follower_id: session[:user_id], leader_id: params[:id])
+	@follow = Follow.new(follower_id: session[:user_id], followee_id: params[:id])
 	if @follow.save
-		flash[:notice] =
+		flash[:notice] = "you are now following this user."
+	else 
+		flash[:notice] = "your follow attempt did not work."
+	end
+	redirect "/user/#{params[:id]}"
 end
 
 get '/follow/:id/delete' do
 	current_user
+	 @follow = Follow.find(params[:id])
 
+	 if @follow.follower_id != session[:user_id]
+	 	flash[:notice] = "you may not unfollow."
+	 else
+	 	if @follow.destroy
+	 		flash[:notice] = "you are no longer following this user."
+	 	else 
+	 		flash[:notice] = "something went wrong :("
+	 	end
+	 end
+
+  redirect back
 end
 
 
@@ -94,17 +110,12 @@ end
 
 post '/postnew' do
 	current_user
-	p "THE ROUTE IS WORKING"
 	if params[:text] == "" #feed textbox is empty
 		flash[:emptypost] = "please enter a post!" #flash
 		redirect "/feed/#{ @current_user.id }"
 	else 
 		@post = Post.new(text: params[:text], user_id: session[:user_id])
-		p params
-		p "THE POST WAS CREATED"
 		@post.save
-		p @post
-		p "THE POST WAS SAVED"
 		flash[:savedpost] = "your post was saved!"
 	end
 	redirect "/feed/#{ @current_user.id }"
@@ -113,7 +124,7 @@ end
 post '/post/:id/edit' do
 	current_user
 	@post = Post.find(params[:id])
-	if @current_user.id = @post.user_id
+	if @current_user.id == @post.user_id
 		@post.update(text: params[:text])
 	else
 		flash[:notpostowner] = "you are not the post owner and cannot edit this post."
@@ -144,6 +155,23 @@ end
 
 get '/feed/:id' do
 	current_user
+	if @current_user 
+    	@followers = @current_user.followers
+   		@following = @current_user.followees
+   		p "------------------------------"
+   		p @following 
+   		p "----------------------------"
+	    if !@following.empty?
+	      @following_posts = @following.map(&:posts).flatten #TODO really ugly should fix
+	      p @following_posts
+	   	p "----------------------------"
+	   	p "Hellooooo"
+	    else
+	      @following_posts = []
+	    end
+	    p @following_posts
+  	end
+
 	@user = User.find(params[:id])
 	@posts = Post.all
 	erb :feed
