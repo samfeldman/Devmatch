@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8"/>
 		<title>DevMatch</title>
-		<link rel="stylesheet" type="text/css" href="./stylesheet.css">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="/stylesheet.css">
 	</head>
 	<body>
 		<div class="maincontainer">
@@ -19,33 +19,33 @@
 						<br>
 						<br>
 						<label for="sex">gender</label>
-						<input type="text" name="sex" label="sex" value="<%= @user.sex %>">
+						<input type="text" name="sex" value="<%= @user.sex %>">
 						<label for="birthday">birthday</label>
 							<% if @user.birthday %>
-							<input type="text" name="birthday" label="birthday" value="<%= @user.birthday.strftime("%B %e, %Y") %>">
+							<input type="text" name="birthday" value="<%= @user.birthday.strftime("%B %e, %Y") %>">
 							<% else %>
-							<input type="text" name="birthday" label="birthday" placeholder="month day, year">
+							<input type="text" name="birthday" placeholder="month day, year">
 							<% end %>
 						<label for="location">location</label>
-						<input type="text" name="location" label="location" value="<%= @user.location %>">
+						<input type="text" name="location" value="<%= @user.location %>">
 						<br>
 						<br>
 						<label for="company">company</label>
-						<input type="text" name="company" label="company" value="<%= @user.company %>">
+						<input type="text" name="company" value="<%= @user.company %>">
 						<label for="specialty">specialty</label>
-						<input type="text" name="specialty" label="specialty" value="<%= @user.specialty %>">
+						<input type="text" name="specialty" value="<%= @user.specialty %>">
 						<br>
 						<br>
 						<label for="aboutme">about me</label>
-						<textarea name="aboutme" label="about me"><%= @user.aboutme %></textarea>
+						<textarea name="aboutme" ><%= @user.aboutme %></textarea>
 						<br>
 						<br>
 						<label for="email">email</label>
-						<input type="email" name="email" label="email" value="<%= @user.email %>">
+						<input type="email" name="email" value="<%= @user.email %>">
 						<label for="password">password</label>
-						<input type="password" name="password" label="password" value="<%= @user.password %>">
+						<input type="password" name="password" value="<%= @user.password %>">
 						<label for="confirmpassword">confirm password</label>
-						<input type="password" name="confirmpassword" label="confirm your password" value="<%= @user.password%>">
+						<input type="password" name="confirmpassword" value="<%= @user.password%>">
 						<br>
 						<br>
 						<input type="submit" name="update" value="update profile">
@@ -78,20 +78,25 @@
 			<div class="rightpage">
 			<% if !@posts.empty? %>
 				<h1>Posts</h1>
+				<% if @follow %>
+      				<a href=<%= "/follow/#{ @follow.id }/delete" %>>UnFollow</a>
+   				<% else %>
+      				<a href=<%= "/user/#{ @user.id }/follow" %>>Follow</a>
+    			<% end %>
 				<ul> 
 					<% @posts.each do |post| %>
 						<li class="post_text">
-							<% if @current_user.id == @user.id %>
+							<% if @current_user.id == post.user_id %>
 							<form action="/post/#{ post.id }/edit" method="POST">
 							<label for="post">Post</label>
-							<textarea name="post" placeholder="<%= post.text %>"></textarea>
+							<textarea name="post" ><%= post.text %></textarea>
 							<input type="submit" name="edit" value="edit post">
 							</form>
 							<% else %>
 							<%= "#{ post.text }" %>
 							<% end %>
 						</li>
-						<li class="post_author">By <a href=<%= "/user/#{ post.user_id }" %>><%= "#{ post.user.fname } #{ post.user.lname }" %></a>
+						<li class="post_author">By <a href=<%= "/user/#{ post.user_id }" %>> <%= "#{ post.user.fname } #{ post.user.lname }" %></a>
 						</li>
 						<li class="post_timestamp">last updated <%= "#{ post.created_at }" %>
 						</li>

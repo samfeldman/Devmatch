@@ -1,39 +1,49 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>DevMatch</title>
-	<meta charset="utf-8" />
-	<link rel="stylesheet" type="text/css" href="./stylesheet.css">
-</head>
-	<body>
-		<div class="maincontainer">
-			<% if flash[:emptypost] %>
-				<h1 class="flashnotice"><%= flash[:emptypost] %></h1>  
-			<% end %>
-			<% if flash[:savedpost] %>
-				<h1 class="flashnotice"><%= flash[:savedpost] %></h1>  
-			<% end %>
-			<form action="/postnew" method="POST">
-				<textarea id="textarea" name="text" placeholder="post something here!"></textarea>
-				<input type="submit" name="postbutton" value="post">
-			</form>
-			<% if @posts %>
-				<ul> 
-				<% @posts.each do |post| %>
-					<li>
-						<ul> 
-							<li><%= "#{ post.text }" %></li>
-							<li><%= "USERNAME" %></li>
-							<li><%= "#{ post.created_at}" %></li>
-						<ul>
-					</li>
-				<% end %>
-				</ul>
-			<% end %>
-		</div>
-	</body>
-</html>
 
+<div class="newpost" >
+	<% if flash[:emptypost] %>
+		<h1 class="emptypostflash"><%= flash[:emptypost] %></h1>  
+	<% end %>
+	<% if flash[:savedpost] %>
+		<h1 class="postsaved"><%= flash[:savedpost] %></h1>  
+	<% end %>
+	<h1>create a new post</h1>
+	<form action="/postnew" method="POST">
+		<textarea name="text" placeholder="post something here!"></textarea>
+		<input type="submit" name="postbutton" value="post">
+	</form>
+</div>
+
+<div class="postfeed">
+	<% if !@posts.empty? %>
+		<h1>feed</h1>
+			<ul> 
+				<% @posts.each do |post| %>
+					<li class="post_text">
+						<% if @current_user.id == post.user_id %>
+						<% flash[:notpostowner] if flash[:notpostowner] %>
+						<form action=<%= "/post/#{post.id}/edit" %> method="POST">
+						<label for="post">Post</label>
+						<textarea name="text"><%= "#{post.text}" %></textarea>
+						<input type="submit" name="edit" value="edit post">
+						</form>
+						<% else %>
+						post
+						<%= "#{ post.text }" %>
+						<% end %>
+					</li>
+					<li class="post_author">By <a href=<%= "/user/#{ post.user_id }" %>> <%= "#{ post.user.fname } #{ post.user.lname }" %></a>
+					</li>
+					<li class="post_timestamp">last updated <%= "#{ post.created_at }" %>
+					</li>
+					<% if @current_user.id == post.id %>
+						<li class="post_delete"><a href=<%= "/post/#{ post.id }/delete" %>>delete</a><%= flash[:post_delete] if flash[:post_delete] %></li>
+					<% end %>
+				<% end %>
+			</ul>
+	<% else %>
+		<h1>No posts to show! Make some yourself and/or make sure you are following other users.</h1>
+	<% end %>
+</div>
 
 
 

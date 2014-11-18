@@ -1,0 +1,9 @@
+<h1>users</h1>
+
+<ul>
+	<% if @users %>
+		<% @users.each do |user| %>
+			<li><a href=<%= "/user/#{ user.id }" %>><%= "#{user.fname}" %> <%= "#{user.lname}" %></a></li>
+		<% end %>
+	<% end %>
+</ul>

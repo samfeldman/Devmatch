@@ -6,4 +6,5 @@ gem 'sinatra-activerecord'
 gem 'sqlite3'
 gem 'rake'
 gem 'sinatra-flash'
-
+gem 'pry'
+gem 'pry-byebug'

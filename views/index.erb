@@ -1,61 +1,49 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>DevMatch</title>
-	<meta charset="utf-8" />
-	<link rel="stylesheet" type="text/css" href="./stylesheet.css">
-</head>
-<body>
-	<div class="maincontainer">
-		<img id="mainlogo" src="/logo.png">
-		<div class="form-bubbles">
-			<div class="main-forms">
-				<h1>Sign In</h1>
-				<% if flash[:nouser] %>
-					<h1 class="flashnotice"><%= flash[:nouser] %></h1>  
-				<% end %>
-				<% if flash[:signinwrong] %>
-					<h1 class="flashnotice"><%= flash[:signinwrong] %></h1>  
-				<% end %>
-				<form action="/signin" method="POST">
-					<input class="longform" type="email" name="email" placeholder="email">
-					<br>
-					<br>
-					<input class="longform" type="password" name="password" placeholder="password">
-					<br>
-					<br>
-					<input type="submit" name="signin" value="Sign in!">
-				</form>
-			</div>
-		</div>
-		
-		<div class="form-bubbles">
-			<div class="main-forms">
-					<h1>Sign Up</h1>
-					<% if flash[:usedemail] %>
-						<h1 class="flashnotice"><%= flash[:usedemail] %></h1>  
-					<% end %>
-					<% if flash[:diffpassword] %>
-						<h1 class="flashnotice"><%= flash[:diffpassword] %></h1>  
-					<% end %>
-					<form action="/signup" method="POST">
-						<input type="text" name="fname" placeholder="first name">
-						<input type="text" name="lname" placeholder="last name">
-						<br>
-						<br>
-						<input class="longform" type="email" name="email" placeholder="email">
-						<br>
-						<br>
-						<input class="longform" type="password" name="password" placeholder="password">
-						<br>
-						<br>
-						<input class="longform" type="password" name="confirmpassword" placeholder="confirm password">
-						<br>
-						<br>
-						<input type="submit" name="signup" value="Sign up!">
-					</form>
-			</div>
-		</div>
+<img id="mainlogo" src="/logo.png">
+<div class="form-bubbles">
+	<div class="main-forms">
+		<h1>Sign In</h1>
+		<% if flash[:nouser] %>
+			<h1 class="flashnotice"><%= flash[:nouser] %></h1>  
+		<% end %>
+		<% if flash[:signinwrong] %>
+			<h1 class="flashnotice"><%= flash[:signinwrong] %></h1>  
+		<% end %>
+		<form action="/signin" method="POST">
+			<input class="longform" type="email" name="email" placeholder="email">
+			<br>
+			<br>
+			<input class="longform" type="password" name="password" placeholder="password">
+			<br>
+			<br>
+			<input type="submit" name="signin" value="Sign in!">
+		</form>
 	</div>
-</body>
-</html>
+</div>
+
+<div class="form-bubbles">
+	<div class="main-forms">
+			<h1>Sign Up</h1>
+			<% if flash[:usedemail] %>
+				<h1 class="flashnotice"><%= flash[:usedemail] %></h1>  
+			<% end %>
+			<% if flash[:diffpassword] %>
+				<h1 class="flashnotice"><%= flash[:diffpassword] %></h1>  
+			<% end %>
+			<form action="/signup" method="POST">
+				<input type="text" name="fname" placeholder="first name">
+				<input type="text" name="lname" placeholder="last name">
+				<br>
+				<br>
+				<input class="longform" type="email" name="email" placeholder="email">
+				<br>
+				<br>
+				<input class="longform" type="password" name="password" placeholder="password">
+				<br>
+				<br>
+				<input class="longform" type="password" name="confirmpassword" placeholder="confirm password">
+				<br>
+				<br>
+				<input type="submit" name="signup" value="Sign up!">
+			</form>
+	</div>
+</div>
