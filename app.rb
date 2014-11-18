@@ -20,7 +20,7 @@ def current_user
 end
 
 get '/' do
-	current_user
+	session[:user_id] = nil
 	erb :index
 end
 
@@ -68,7 +68,10 @@ get '/user/:id/delete' do
 	@user = User.find(params[:id])
 	if @current_user.id = @user.id
 		@user.posts.destroy_all
+		@user.followerships.destroy_all
+		@user.followeeships.destroy_all
 		@user.destroy
+		session[:user_id] = nil
 		redirect '/'
 	else
 		flash[:user_delete] = "you are not the signed in user and cannot delete this user."
@@ -158,18 +161,11 @@ get '/feed/:id' do
 	if @current_user 
     	@followers = @current_user.followers
    		@following = @current_user.followees
-   		p "------------------------------"
-   		p @following 
-   		p "----------------------------"
 	    if !@following.empty?
-	      @following_posts = @following.map(&:posts).flatten #TODO really ugly should fix
-	      p @following_posts
-	   	p "----------------------------"
-	   	p "Hellooooo"
-	    else
-	      @following_posts = []
+	    	@following_posts = @following.map(&:posts).flatten
+	    else 
+	    	@following_posts = []
 	    end
-	    p @following_posts
   	end
 
 	@user = User.find(params[:id])
@@ -188,6 +184,8 @@ post '/signup' do
 	else #if the @user doesn't match a User with that email, create a new User
 		@user = User.new(fname: params[:fname], lname: params[:lname], email: params[:email], password: params[:password])
 		@user.save
+		@follow = Follow.new(follower_id: @user.id, followee_id: @user.id)
+		@follow.save
 		session[:user_id] = @user.id #add session
 		current_user
 		redirect "/user/#{ @current_user.id }"

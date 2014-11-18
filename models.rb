@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-	
 
 	has_many :posts
 
@@ -18,12 +17,6 @@ class User < ActiveRecord::Base
 	has_many :followees, 
 		through: :followerships, 
 		source: :followee
-
-	after_save :follow_self
-		def follow_self
-		@follow = Follow.new(follower_id: :id, followee_id: :id)
-		@follow.save
-		end
 
 end
 
