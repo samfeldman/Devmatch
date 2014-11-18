@@ -3,23 +3,26 @@
 	<head>
 		<title>DevMatch</title>
 		<meta charset="utf-8" />
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="/stylesheet.css">
 	</head>
 	<body>
-		<% if session[:user_id] != nil %>
-		<nav>
-			<img class="logo" src="/logo.png">
-			<ul class="navlinks">
-				
-				<li><a href="/logout">logout</a></li>
-				<li><a href="/userlist">users</a></li>
-				<li><a href="/feed/<%= @current_user.id %>">feed</a></li>
-				<li><a href="/user/<%= @current_user.id %>">profile</a></li>	
-			</ul>
-		</nav>
-		<% end %>
 		<div class="maincontainer">
-			<%= yield %>
+			<% if session[:user_id] != nil %>
+				<nav>
+					<img class="logo" src="/logo.png">
+					<ul class="navlinks">
+						
+						<li><a href="/logout">logout</a></li>
+						<li><a href="/userlist">users</a></li>
+						<li><a href="/feed/<%= @current_user.id %>">feed</a></li>
+						<li><a href="/user/<%= @current_user.id %>">profile</a></li>	
+					</ul>
+				</nav>
+			<% end %>
+			<div class="content">
+				<%= yield %>
+			</div>
 		</div>
 	</body>
 </html>

@@ -1,9 +1,9 @@
 
 <div class="newpost" >
-	<% if flash[:emptypost] %>
+	<% if flash[:notice] %>
 		<h1 class="emptypostflash"><%= flash[:emptypost] %></h1>  
 	<% end %>
-	<% if flash[:savedpost] %>
+	<% if flash[:notice] %>
 		<h1 class="postsaved"><%= flash[:savedpost] %></h1>  
 	<% end %>
 	<h1>create a new post</h1>
