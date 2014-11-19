@@ -16,7 +16,6 @@ def current_user
   else
     @current_user =  User.find(session[:user_id])
   end
-  return @current_user
 end
 
 get '/' do

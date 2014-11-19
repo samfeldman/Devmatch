@@ -93,7 +93,7 @@
 				</li>
 				<li class="post_timestamp">last updated <%= "#{ post.created_at }" %>
 				</li>
-				<% if @current_user.id == @user.id %>
+				<% if @current_user.id == post.user_id %>
 					<li class="post_delete"><a href=<%= "/post/#{ post.id }/delete" %>>delete</a><%= flash[:post_delete] if flash[:post_delete] %></li>
 				<% end %>
 			<% end %>
