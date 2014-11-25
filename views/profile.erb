@@ -1,104 +1,111 @@
-<div class="leftpage">
-	<img class="dummy" src="/dummy.jpg" alt="dummy profile image">
-	<% if @user.id == @current_user.id %>
-		<h1>Your Profile Information</h1>
-		<form action="/user/<%= @user.id %>/edit" method="POST">
-			<label for="fname">first name</label>
-			<input type="text" name="fname" value="<%= @user.fname %>"> 
-			<label for="lname">last name</label>
-			<input type="text" name="lname" value="<%= @user.lname %>">
-			<br>
-			<br>
-			<label for="sex">gender</label>
-			<input type="text" name="sex" value="<%= @user.sex %>">
-			<label for="birthday">birthday</label>
-				<% if @user.birthday %>
-				<input type="text" name="birthday" value="<%= @user.birthday.strftime("%B %e, %Y") %>">
-				<% else %>
-				<input type="text" name="birthday" placeholder="month day, year">
-				<% end %>
-			<label for="location">location</label>
-			<input type="text" name="location" value="<%= @user.location %>">
-			<br>
-			<br>
-			<label for="company">company</label>
-			<input type="text" name="company" value="<%= @user.company %>">
-			<label for="specialty">specialty</label>
-			<input type="text" name="specialty" value="<%= @user.specialty %>">
-			<br>
-			<br>
-			<label for="aboutme">about me</label>
-			<textarea name="aboutme" ><%= @user.aboutme %></textarea>
-			<br>
-			<br>
-			<label for="email">email</label>
-			<input type="email" name="email" value="<%= @user.email %>">
-			<label for="password">password</label>
-			<input type="password" name="password" value="<%= @user.password %>">
-			<label for="confirmpassword">confirm password</label>
-			<input type="password" name="confirmpassword" value="<%= @user.password%>">
-			<br>
-			<br>
-			<input type="submit" name="update" value="update profile">
-		</form>
-		<a class="delete_account" href=<%= "/user/#{ @user.id }/delete" %>>delete account</a>
-		<%= flash[:user_update] if flash[:user_update] %>
-		<%= flash[:user_delete] if flash[:user_delete] %>
-	<% else %>
-		<%= flash[:user_update] if flash[:user_update] %>
-		<div class="leftline1">
-			<h1><%= @user.fname %></h1>
-			<h1><%= @user.lname %></h1>
-		</div>
-		<div class="leftline2">
-			<h2>Sex: <%= @user.sex %></h2>
-			<h2>Birthday: <%= @user.birthday %></h2>
-			<h2>Location: <%= @user.location %></h2>
-		</div>
-		<div class="leftline3">
-			<h2>Company: <%= @user.company%></h2>
-			<h2>Specialty: <%= @user.specialty %></h2>
-		</div>
-		<div class="aboutme">
-			<h1>About Me</h1>
-			<h2><%= @user.aboutme %></h2>
-		</div>
-	<% end %>
-</div>
-
-<div class="rightpage">
-	<% if @user.id != @current_user.id %>
-		<% if @follow %>
-  			<a href=<%= "/follow/#{ @follow.id }/delete" %>>UnFollow</a>
-			<% else %>
-  			<a href=<%= "/user/#{ @user.id }/follow" %>>Follow</a>
-		<% end %>
-	<% end %>
-	<% if !@posts.empty? %>
-		<h1>Posts</h1>
-		<ul> 
-			<% @posts.each do |post| %>
-				<li class="post_text">
-					<% if @current_user.id == post.user_id %>
-					<form action=<%= "/post/#{ post.id }/edit"%> method="POST">
-					<label for="post">Post</label>
-					<textarea name="text" ><%= post.text %></textarea>
-					<input type="submit" name="edit" value="edit post">
-					</form>
+<div class="maincontainer">
+	<div class="leftpage">
+		<img class="dummy" src="/dummy.jpg" alt="dummy profile image">
+		<% if @user.id == @current_user.id %>
+			<h1>Your Profile Information</h1>
+			<form action="/user/<%= @user.id %>/edit" method="POST">
+				<label for="fname">first name</label>
+				<input type="text" name="fname" value="<%= @user.fname %>"> 
+				<br>
+				<label for="lname">last name</label>
+				<input type="text" name="lname" value="<%= @user.lname %>">
+				<br>
+				<br>
+				<label for="sex">gender</label>
+				<input type="text" name="sex" value="<%= @user.sex %>">
+				<br>
+				<label for="birthday">birthday</label>
+					<% if @user.birthday %>
+					<input type="text" name="birthday" value="<%= @user.birthday.strftime("%B %e, %Y") %>">
 					<% else %>
-					<%= "#{ post.text }" %>
+					<input type="text" name="birthday" placeholder="month day, year">
 					<% end %>
-				</li>
-				<li class="post_author">By <a href=<%= "/user/#{ post.user_id }" %>> <%= "#{ post.user.fname } #{ post.user.lname }" %></a>
-				</li>
-				<li class="post_timestamp">last updated <%= "#{ post.created_at }" %>
-				</li>
-				<% if @current_user.id == post.user_id %>
-					<li class="post_delete"><a href=<%= "/post/#{ post.id }/delete" %>>delete</a><%= flash[:post_delete] if flash[:post_delete] %></li>
-				<% end %>
+				<br>
+				<label for="location">location</label>
+				<input type="text" name="location" value="<%= @user.location %>">
+				<br>
+				<br>
+				<label for="company">company</label>
+				<input type="text" name="company" value="<%= @user.company %>">
+				<label for="specialty">specialty</label>
+				<input type="text" name="specialty" value="<%= @user.specialty %>">
+				<br>
+				<br>
+				<label for="aboutme">about me</label>
+				<textarea name="aboutme" ><%= @user.aboutme %></textarea>
+				<br>
+				<br>
+				<label for="email">email</label>
+				<input type="email" name="email" value="<%= @user.email %>">
+				<br>
+				<label for="password">password</label>
+				<input type="password" name="password" value="<%= @user.password %>">
+				<br>
+				<label for="confirmpassword">confirm password</label>
+				<input type="password" name="confirmpassword" value="<%= @user.password%>">
+				<br>
+				<br>
+				<input type="submit" name="update" value="update profile">
+			</form>
+			<a class="delete_account" href=<%= "/user/#{ @user.id }/delete" %>>delete account</a>
+			<%= flash[:user_update] if flash[:user_update] %>
+			<%= flash[:user_delete] if flash[:user_delete] %>
+		<% else %>
+			<%= flash[:user_update] if flash[:user_update] %>
+			<div class="leftline1">
+				<h1><%= @user.fname %></h1>
+				<h1><%= @user.lname %></h1>
+			</div>
+			<div class="leftline2">
+				<h2>Sex: <%= @user.sex %></h2>
+				<h2>Birthday: <%= @user.birthday %></h2>
+				<h2>Location: <%= @user.location %></h2>
+			</div>
+			<div class="leftline3">
+				<h2>Company: <%= @user.company%></h2>
+				<h2>Specialty: <%= @user.specialty %></h2>
+			</div>
+			<div class="aboutme">
+				<h1>About Me</h1>
+				<h2><%= @user.aboutme %></h2>
+			</div>
+		<% end %>
+	</div>
+
+	<div class="rightpage">
+		<% if @user.id != @current_user.id %>
+			<% if @follow %>
+	  			<a href=<%= "/follow/#{ @follow.id }/delete" %>>UnFollow</a>
+				<% else %>
+	  			<a href=<%= "/user/#{ @user.id }/follow" %>>Follow</a>
 			<% end %>
-		</ul>
-	<% else %>
-		<h1>User has no posts.</h1>
-	<% end %>
+		<% end %>
+		<% if !@posts.empty? %>
+			<h1>Posts</h1>
+			<ul> 
+				<% @posts.each do |post| %>
+					<li class="post_text">
+						<% if @current_user.id == post.user_id %>
+						<form action=<%= "/post/#{ post.id }/edit"%> method="POST">
+						<label for="post">Post</label>
+						<textarea name="text" ><%= post.text %></textarea>
+						<input type="submit" name="edit" value="edit post">
+						</form>
+						<% else %>
+						<%= "#{ post.text }" %>
+						<% end %>
+					</li>
+					<li class="post_author">By <a href=<%= "/user/#{ post.user_id }" %>> <%= "#{ post.user.fname } #{ post.user.lname }" %></a>
+					</li>
+					<li class="post_timestamp">last updated <%= "#{ post.created_at }" %>
+					</li>
+					<% if @current_user.id == post.user_id %>
+						<li class="post_delete"><a href=<%= "/post/#{ post.id }/delete" %>>delete</a><%= flash[:post_delete] if flash[:post_delete] %></li>
+					<% end %>
+				<% end %>
+			</ul>
+		<% else %>
+			<h1>User has no posts.</h1>
+		<% end %>
+	</div>
 </div>

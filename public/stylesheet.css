@@ -5,10 +5,28 @@ body {
 }
 
 .maincontainer {
-	width: 100%;
+	width: 900px;
 	padding: 30px;
+	margin: 0 auto;
 }
 
+.header{
+	width: 400px;
+	margin: 0 auto;
+	height: 150px;
+}
+
+.leftpage{
+	width: 450px;
+	margin: 0px;
+	float: left;
+}
+
+.rightpage{
+	width: 450px;
+	margin: 0px;
+	float: left;
+}
 
 
 /*index*/
@@ -61,6 +79,7 @@ nav {
 }
 
 .logo{
+	margin: 2 auto;
 	height: 100px;
 	float: left;
 }
@@ -107,9 +126,42 @@ img.dummy {
 	float: right;
 }
 
+.newpost{
+	position: relative;
+	top: 100px;
+	width: 300px;
+	height: 150px;
+	padding: 25px;
+	background: #F47A13;
+	border-radius: 30px;
+	float: left;
+}
 
+.postfeed{
+	position: relative;
+	top: 100px;
+	width: 300px;
+	height: 100%;
+	padding: 25px;
+	background: #F47A13;
+	border-radius: 30px;
+	float: left;
+	margin-left: 70px;
+}
 
-
-
+.userslist{
+	position: relative;
+	top: 30px;
+	width: 200px;
+	height: 100%;
+	padding-left: 10px;
+	padding-right: 10px;
+	background: #F47A13;
+	border-radius: 30px;
+	float: left;
+}
+.userlist{
+	margin: 0 auto;
+}
 
 
